@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(),cssInjectedByJsPlugin()],
   build: {
-    outDir: './npm-package/dist',
+    outDir: './dist',// << move back to plain 'dist'
     emptyOutDir: true,
     lib: {
       entry: './src/index.ts',
@@ -21,6 +23,9 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
         },
+		exports:'named', // recommended to avoid default+named warning
+		manualChunks: undefined, // disables code splitting
+		inlineDynamicImports: true
       },
     },
   },
